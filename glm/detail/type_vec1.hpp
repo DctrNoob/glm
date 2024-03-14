@@ -97,7 +97,7 @@ namespace glm
 		template<qualifier P>
 		GLM_CTOR_DECL vec(vec<1, T, P> const& v);
 
-		GLM_FUNC_DECL GLM_CONSTEXPR vec(T scalar); // @EDITED: Made constructor implicit
+		GLM_CTOR_DECL vec(T scalar); // @EDITED: Made constructor implicit
 
 		// -- Conversion vector constructors --
 
