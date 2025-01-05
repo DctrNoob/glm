@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
-cmake_policy(VERSION 3.6)
+# 3.6 is the actual minimun. 3.14 as the upper policy limit avoids CMake deprecation warnings.
+cmake_minimum_required(VERSION 3.6...3.14 FATAL_ERROR)
+cmake_policy(VERSION 3.6...3.14)
 
 file(READ "glm/detail/setup.hpp" GLM_SETUP_FILE)
 string(REGEX MATCH "#define[ ]+GLM_VERSION_MAJOR[ ]+([0-9]+)" _ ${GLM_SETUP_FILE})
@@ -149,6 +150,7 @@ option(GLM_ENABLE_SIMD_SSE4_1 "Enable SSE 4.1 optimizations" OFF)
 option(GLM_ENABLE_SIMD_SSE4_2 "Enable SSE 4.2 optimizations" OFF)
 option(GLM_ENABLE_SIMD_AVX "Enable AVX optimizations" OFF)
 option(GLM_ENABLE_SIMD_AVX2 "Enable AVX2 optimizations" OFF)
+option(GLM_TEST_ENABLE_SIMD_NEON "Enable ARM NEON optimizations" OFF)
 option(GLM_FORCE_PURE "Force 'pure' instructions" OFF)
 
 if(GLM_FORCE_PURE)
@@ -242,6 +244,9 @@ elseif(GLM_ENABLE_SIMD_SSE2)
 		add_compile_options(/arch:SSE2)
 	endif()
 	message(STATUS "GLM: SSE2 instruction set")
+elseif(GLM_TEST_ENABLE_SIMD_NEON)
+	add_definitions(-DGLM_FORCE_NEON)
+	message(STATUS "GLM: ARM NEON instruction set")
 endif()
 
 add_subdirectory(glm)
